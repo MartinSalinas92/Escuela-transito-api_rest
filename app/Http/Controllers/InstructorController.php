@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\persons;
 use App\Models\instructor;
 use Illuminate\Http\Request;
 use App\Http\Requests\CreateInstructor;
-use App\Models\persons;
+use App\Http\Requests\UpdateInstructores;
 
 class InstructorController extends Controller
 {
@@ -59,9 +60,35 @@ class InstructorController extends Controller
     }
 
 
-    public function update(Request $request, instructor $instructor)
+    public function update(UpdateInstructores $request, instructor $instructor, $id)
     {
-        //
+
+        $persona=[
+            'last_name'=>$request->apellido,
+            'name'=>$request->nombre,
+            'dni'=>$request->dni,
+            'date_birth'=>$request->fecha_nacimiento,
+            'number_tel'=>$request->telefono
+        ];
+
+       persons::where('id', $request->id_persona)->update($persona);
+
+       instructor::where('id', $id)->update([
+
+            'status'=>$request->status
+
+       ]);
+
+
+       return response()->json([
+
+            'res'=>true,
+            'message'=>'se ha modificado correctamente'
+       ],200);
+
+
+
+
     }
 
 

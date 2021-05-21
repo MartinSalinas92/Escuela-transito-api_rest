@@ -41,6 +41,7 @@ Route::group(['middleware'=>'auth:api'],function(){
     //instructores
     Route::get('/instructoresindex',[App\Http\Controllers\InstructorController ::class,'index']);
     Route::post('/instructores',[App\Http\Controllers\InstructorController ::class,'store']);
+    Route::put('/instructores/{id}', [App\Http\Controllers\InstructorController::class,'update']);
 
 
 

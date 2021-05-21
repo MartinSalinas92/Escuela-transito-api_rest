@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateIntructors extends FormRequest
+class UpdateInstructores extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +13,7 @@ class UpdateIntructors extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,13 @@ class UpdateIntructors extends FormRequest
     public function rules()
     {
         return [
-            //
+            'id_persona'=>'required',
+            'apellido'=>'required|string',
+            'nombre'=>'required|string',
+            'dni'=>'required',
+            'telefono'=>'required',
+            'fecha_nacimiento'=>'required|date',
+            'status'=>'required'
         ];
     }
 }
