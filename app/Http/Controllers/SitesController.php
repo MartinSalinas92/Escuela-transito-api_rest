@@ -3,7 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\sites;
+use App\Models\address;
 use Illuminate\Http\Request;
+use App\Http\Requests\UpdateSitio;
+use App\Http\Requests\CrearAddress;
+use App\Http\Requests\BuscarporBarrio;
+
 
 class SitesController extends Controller
 {
@@ -14,62 +19,82 @@ class SitesController extends Controller
      */
     public function index()
     {
-        //
+        $sitios=sites::with('address')->take(10)->get();
+
+        return response()->json($sitios);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+    public function indexxbarrio(BuscarporBarrio $request){
+
+        $barrio=address::where('neighborhood', $request->barrio)->get();
+
+        return response()->json($barrio);
+
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\sites  $sites
-     * @return \Illuminate\Http\Response
-     */
-    public function show(sites $sites)
-    {
-        //
-    }
+    public function store(CrearAddress $request){
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\sites  $sites
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(sites $sites)
-    {
-        //
-    }
+        $infocalle=[
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\sites  $sites
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, sites $sites)
+            'neighborhood'=>$request->nombre_barrio,
+            'street'=>$request->nombre_calle,
+            'nro_house'=>$request->numero_sitio,
+            'info_add'=>$request->info_add
+
+        ];
+
+        $address=address::create($infocalle);
+
+        sites::create([
+
+            'name'=>$request->nombre_sitio,
+            'address_id'=>$address->id
+
+
+
+        ]);
+
+        return response()->json([
+
+            'res'=>true,
+            'message'=>'se ha creado el sitio correctamente'
+
+        ], 200);
+
+
+
+    }
+    public function update(UpdateSitio $request, sites $sites, $id)
     {
-        //
+
+        $barrio=[
+
+
+            'neighborhood'=>$request->nombre_barrio,
+            'street'=>$request->nombre_calle,
+            'nro_house'=>$request->numero_sitio,
+            'info_add'=>$request->info_add
+
+        ];
+
+        address::where('id', $request->barrio_id)->update($barrio);
+
+        sites::where('id',$id)->update([
+
+            'name'=>$request->nombre_sitio,
+
+
+        ]);
+
+        return response()->json([
+
+            'res'=>true,
+            'message'=>'se ha modificado correctamente'
+
+        ], 200);
+
+
     }
 
     /**

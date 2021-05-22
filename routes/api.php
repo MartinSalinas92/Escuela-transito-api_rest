@@ -36,12 +36,25 @@ Route::get('/postulantesxdni',[App\Http\Controllers\PostulanteController::class,
 Route::post('/postulantesapi',[App\Http\Controllers\PostulanteController::class,'store']);
 Route::put('/postulante/{id}', [App\Http\Controllers\PostulanteController::class,'update']);
 
+
+
+
 Route::group(['middleware'=>'auth:api'],function(){
 
     //instructores
     Route::get('/instructoresindex',[App\Http\Controllers\InstructorController ::class,'index']);
+    Route::get('/instructoresxdni',[App\Http\Controllers\InstructorController ::class,'indexxdni']);
+
     Route::post('/instructores',[App\Http\Controllers\InstructorController ::class,'store']);
     Route::put('/instructores/{id}', [App\Http\Controllers\InstructorController::class,'update']);
+
+
+    //Sitios
+    Route::get('/sitios',[App\Http\Controllers\SitesController::class,'index']);
+    Route::get('/sitiosxbarrios',[App\Http\Controllers\SitesController::class,'indexxbarrio']);
+    Route::post('/addSitios',[App\Http\Controllers\SitesController::class,'store']);
+    Route::put('/sitios/{id}',[App\Http\Controllers\SitesController::class,'update']);
+
 
 
 

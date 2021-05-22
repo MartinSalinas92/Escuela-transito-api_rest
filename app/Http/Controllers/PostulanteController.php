@@ -25,7 +25,7 @@ class PostulanteController extends Controller
 
 
 
-        $postulante=postulante::with('person','direccion', 'cursos')->get();
+        $postulante=postulante::with('person','direccion')->take(10)->get();
 
 
 

@@ -7,6 +7,7 @@ use App\Models\instructor;
 use Illuminate\Http\Request;
 use App\Http\Requests\CreateInstructor;
 use App\Http\Requests\UpdateInstructores;
+use App\Http\Requests\BuscarInstructorporDni;
 
 class InstructorController extends Controller
 {
@@ -15,16 +16,25 @@ class InstructorController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(){
 
-
-    {
-
-        $instructor=instructor::with('person')->get();
+        $instructor=instructor::with('person')->take(10)->get();
 
         return response()->json($instructor);
 
 
+
+
+    }
+
+    public function indexxdni(BuscarInstructorporDni $request){
+
+        $dni=$request->dni;
+
+        $personas=persons::where('dni',$dni)->get();
+
+
+        return response()->json($personas);
 
 
     }

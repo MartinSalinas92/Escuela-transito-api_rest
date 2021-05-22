@@ -9,11 +9,12 @@ class address extends Model
 {
     protected $fillable=[
 
+        'id',
         'neighborhood',
         'street',
         'nro_house',
         'nro_dpto',
-        'nfo_add'
+        'info_add'
 
     ];
 }
